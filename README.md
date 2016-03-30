@@ -37,7 +37,7 @@ Furthermore, the `$loop` variable is introduced inside loops, (almost) exactly l
 ## Usage
 
 ``` php
-@foreach($array as $key => $val)
+@loop($array as $key => $val)
     $loop->index;       // int, zero based
     $loop->index1;      // int, starts at 1
     $loop->revindex;    // int
@@ -48,15 +48,15 @@ Furthermore, the `$loop` variable is introduced inside loops, (almost) exactly l
     $loop->odd;         // bool
     $loop->length;      // int
 
-    @foreach($val as $inner_key => $val)
+    @loop($val as $inner_key => $val)
         $loop->parent->odd;
         $loop->parent->index;
-    @endforeach  
+    @endloop  
     
     @break
 
     @continue
-@endforeach
+@endloop
 ```
 
 ## Change log
