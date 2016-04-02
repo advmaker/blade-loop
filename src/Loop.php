@@ -4,7 +4,6 @@ namespace Advmaker\BladeLoop;
 
 class Loop
 {
-
     /**
      * The array that is being iterated
      *
@@ -76,9 +75,6 @@ class Loop
      */
     public function setItems($items)
     {
-        if (isset($data)) {
-            return;
-        }
         $this->items = $items;
         $total = count($items);
         $this->data = [
