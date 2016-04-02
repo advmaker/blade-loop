@@ -11,6 +11,7 @@ $loop = app('blade.loop')->loop();
 ?>
 EOT
     ],
+
     'endloop'  => [
         'pattern'     => '/(?<!\\w)(\\s*)@endloop(\\s*)/',
         'replacement' => <<<'EOT'
@@ -21,6 +22,7 @@ app('blade.loop')->endLoop($loop);
 ?>$2
 EOT
     ],
+
     'break'    => [
         'pattern'     => '/(?<!\\w)(\\s*)@break(\\s*)/',
         'replacement' => <<<'EOT'
@@ -29,6 +31,7 @@ $1<?php
 ?>$2
 EOT
     ],
+
     'continue' => [
         'pattern'     => '/(?<!\\w)(\\s*)@continue(\\s*)/',
         'replacement' => <<<'EOT'
