@@ -28,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Advmaker\\BladeForeachExtend\\": "src"
+            "Advmaker\\BladeLoop\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Advmaker\\BladeForeachExtend\\": "tests"
+            "Advmaker\\BladeLoop\\": "tests"
         }
     },
     "scripts": {

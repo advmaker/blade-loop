@@ -1,6 +1,6 @@
 <?php
 
-namespace League\Skeleton;
+namespace Advmaker\BladeLoop;
 
 class ExampleTest extends \PHPUnit_Framework_TestCase
 {

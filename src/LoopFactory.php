@@ -1,6 +1,6 @@
 <?php
 
-namespace Advmaker\BladeForeachExtend;
+namespace Advmaker\BladeLoop;
 
 class LoopFactory
 {
