@@ -13,7 +13,7 @@ class BladeLoopServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $directives = $this->app->make('files')->getRequire( __DIR__ . '/directives.php');
+        $directives = $this->app->make('files')->getRequire(__DIR__ . '/directives.php');
 
         /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
         $blade  = $this->app->make('view')->getEngineResolver()->resolve('blade')->getCompiler();
