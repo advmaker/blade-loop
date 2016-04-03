@@ -3,6 +3,7 @@
 namespace Advmaker\BladeLoop;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 class BladeLoopServiceProvider extends ServiceProvider
 {
@@ -13,16 +14,30 @@ class BladeLoopServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('blade.loop', LoopFactory::class);
+
+        $this->app->extend('blade.compiler', function ($blade) {
+            return $this->extendBladeEngine($blade);
+        });
+    }
+
+    /**
+     * Extend blade by new directives.
+     *
+     * @param  BladeCompiler $blade
+     *
+     * @return BladeCompiler
+     */
+    public function extendBladeEngine(BladeCompiler $blade)
+    {
         $directives = $this->app->make('files')->getRequire(__DIR__ . '/directives.php');
 
-        /** @var \Illuminate\View\Compilers\BladeCompiler $blade */
-        $blade  = $this->app->make('view')->getEngineResolver()->resolve('blade')->getCompiler();
-
-        $this->app->singleton('blade.loop', LoopFactory::class);
         foreach ($directives as $name => $directive) {
             $blade->extend(function ($value) use ($directive) {
-                return preg_replace($directive[ 'pattern' ], $directive[ 'replacement' ], $value);
+                return preg_replace($directive['pattern'], $directive['replacement'], $value);
             });
         }
+
+        return $blade;
     }
 }

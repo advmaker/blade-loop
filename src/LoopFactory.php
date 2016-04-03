@@ -8,7 +8,7 @@ class LoopFactory
     /**
      * The stack of Loop instances
      *
-     * @var array $stack
+     * @var Loop[] $stack
      */
     protected $stack = [];
 
@@ -101,7 +101,6 @@ class LoopFactory
             $loop = end($this->stack);
         } else {
             // This loop was not inside another loop. We remove the var
-            //echo "l:(" . count($this->stack) . ") ";
             $loop = null;
         }
     }
