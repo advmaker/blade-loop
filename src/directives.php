@@ -2,7 +2,7 @@
 
 return [
     'loop'     => [
-        'pattern'     => '/(?<!\\w)(\\s*)@loop(?:\\s*)\\((.*)(?:\\sas)(.*)\\)/',
+        'pattern'     => '/(?<!\\w)(\\s*)@loop(?:\\s*)\\((.*)(?:\\sas\\s)([^)]*)\\)/',
         'replacement' => <<<'EOT'
 $1<?php
 app('blade.loop')->newLoop($2);
@@ -24,21 +24,25 @@ EOT
     ],
 
     'break'    => [
-        'pattern'     => '/(?<!\\w)(\\s*)@break(\\s*)/',
+        'pattern'     => '/(?<!\\w)(\\s*)@break\\s*\\(([^)]*)\\)/',
         'replacement' => <<<'EOT'
 $1<?php
+if ($2) {
     break;
-?>$2
+}
+?>
 EOT
     ],
 
     'continue' => [
-        'pattern'     => '/(?<!\\w)(\\s*)@continue(\\s*)/',
+        'pattern'     => '/(?<!\\w)(\\s*)@continue\\s*\\(([^)]*)\\)/',
         'replacement' => <<<'EOT'
 $1<?php
-app('blade.loop')->looped();
-continue;
-?>$2
+if ($2) {
+    app('blade.loop')->looped();
+    continue;
+}
+?>
 EOT
     ],
 ];
