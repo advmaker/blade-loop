@@ -8,7 +8,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 
 This package inspired (more appropriate word: "copied") from https://github.com/RobinRadic/blade-extensions but instead of doing multiple things with
-blade engine (ie: markdown parsing, multiple extensions, etc) it just adds @loop directive to support twig-like loop.
+blade engine (ie: markdown parsing, multiple extensions, etc) it just adds @loop directive to support [twig-like](http://twig.sensiolabs.org/doc/tags/for.html#the-loop-variable) loop.
 
 ## Install
 
