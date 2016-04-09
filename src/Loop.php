@@ -25,8 +25,6 @@ class Loop
      */
     protected $parentLoop;
 
-    protected $loopFactory;
-
     /**
      * Sets the parent loop
      *
@@ -40,32 +38,12 @@ class Loop
     }
 
     /**
-     * Returns the full loop stack of the LoopFactory
-     *
-     * @return array
-     */
-    public function getLoopStack()
-    {
-        return $this->loopFactory->getStack();
-    }
-
-    /**
-     * Resets the loop stack of the LoopFactory
-     */
-    public function resetLoopStack()
-    {
-        $this->loopFactory->reset();
-    }
-
-    /**
      * Instantiates the class
      *
-     * @param LoopFactory $loopFactory
      * @param array $items The array that's being iterated
      */
-    public function __construct(LoopFactory $loopFactory, $items)
+    public function __construct($items)
     {
-        $this->loopFactory = $loopFactory;
         $this->setItems($items);
     }
 
