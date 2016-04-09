@@ -67,4 +67,21 @@ EOT;
         $result = '0=0;2=2;4=4;';
         $this->assertEquals($result, view('continue_if_odd_inline')->render());
     }
+
+    public function testLoopInLoop()
+    {
+        $result = '';
+        $arr = range(0, 3);
+        $arr_inner = range(1, 3);
+        foreach ($arr as $i) {
+            $result .= "{$i}={$i}\n";
+            foreach ($arr_inner as $j) {
+                $result .= "{$i}{$j}={$i}{$j}\n";
+            }
+            $temp = $i+1;
+            $result .= "{$i}={$temp}\n";
+        }
+
+        $this->assertEquals($result, view('loop_in_loop', compact('arr', 'arr_inner'))->render());
+    }
 }
