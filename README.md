@@ -38,21 +38,21 @@ Furthermore, the `$loop` variable is introduced inside loops, (almost) exactly l
 
 ``` php
 @loop($array as $key => $val)
-    $loop->index;       // int, zero based
-    $loop->index1;      // int, starts at 1
-    $loop->revindex;    // int
-    $loop->revindex1;   // int
-    $loop->first;       // bool
-    $loop->last;        // bool
-    $loop->even;        // bool
-    $loop->odd;         // bool
-    $loop->length;      // int
+    {{ $loop->index;}}        {{-- int, zero based --}}
+    {{ $loop->index1; }}      {{-- int, starts at 1 --}}
+    {{ $loop->revindex; }}    {{-- int --}}
+    {{ $loop->revindex1; }}   {{-- int --}}
+    {{ $loop->first; }}       {{-- bool --}}
+    {{ $loop->last; }}        {{-- bool --}}
+    {{ $loop->even; }}        {{-- bool --}}
+    {{ $loop->odd; }}         {{-- bool --}}
+    {{ $loop->length; }}      {{-- int --}}
 
     @loop($val as $inner_key => $val)
-        $loop->parent->odd;
-        $loop->parent->index;
+        {{ $loop->parent->odd; }}
+        {{ $loop->parent->index; }}
     @endloop  
-    
+
     @break
 
     @continue
