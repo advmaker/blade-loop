@@ -29,7 +29,6 @@ class Loop
      * Sets the parent loop
      *
      * @param Loop $parentLoop
-     * {@inheritdocs}
      */
     public function setParentLoop(Loop $parentLoop)
     {

@@ -4,7 +4,6 @@ namespace Advmaker\BladeLoop;
 
 class LoopFactory
 {
-
     /**
      * The stack of Loop instances
      *
