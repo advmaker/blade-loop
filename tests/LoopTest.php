@@ -71,8 +71,8 @@ EOT;
     public function testLoopInLoop()
     {
         $result = '';
-        $arr = range(0,3);
-        $arr_inner = range(1,3);
+        $arr = range(0, 3);
+        $arr_inner = range(1, 3);
         foreach ($arr as $i) {
             $result .= "{$i}={$i}\n";
             foreach ($arr_inner as $j) {
