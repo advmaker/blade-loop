@@ -20,7 +20,7 @@ class BladeLoopServiceProvider extends ServiceProvider
         $this->app->extend('blade.compiler', function (BladeCompiler $blade, Application $app) {
             $blade = $this->addLoopDirectives($blade);
 
-            if (version_compare($app->version(), '5.2', '<')) {
+            if (version_compare($app->version(), '5.2.21', '<')) {
                 $blade = $this->addLoopControlDirectives($blade);
             }
 
