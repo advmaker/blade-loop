@@ -17,22 +17,33 @@ Via Composer
 ``` bash
 $ composer require advmaker/blade-loop
 ```
+And add provider to `config/app.php`
+
+```
+'providers' => [
+    //...
+
+    Advmaker\BladeLoop\BladeLoopServiceProvider::class,
+
+    //...
+]
+```
 
 ## Explanation
-By default, blade doesn't have `@break` and `@continue` which are useful to have. So that's included.
+By default, before v5.2.12 blade doesn't have `@break` and `@continue` which are useful to have. And before version 5.2.22 it's not supported conditions. So that's included.
  
 Furthermore, the `$loop` variable is introduced inside loops, (almost) exactly like Twig. Description table:
 
-| Variable | Description |
-|:---------|:------------|
-| $loop->index1 | The current iteration of the loop. (1 indexed) |
-| $loop->index | The current iteration of the loop. (0 indexed) |
-| $loop->revindex1 | The number of iterations from the end of the loop (1 indexed) |
-| $loop->revindex | The number of iterations from the end of the loop (0 indexed) |
-| $loop->first | 	True if first iteration |
-| $loop->last | True if last iteration |
-| $loop->length | The number of items in the sequence |
-| $loop->parent | The parent context |
+| Variable          | Description |
+|:------------------|:------------|
+| $loop->index1     | The current iteration of the loop. (1 indexed) |
+| $loop->index      | The current iteration of the loop. (0 indexed) |
+| $loop->revindex1  | The number of iterations from the end of the loop (1 indexed) |
+| $loop->revindex   | The number of iterations from the end of the loop (0 indexed) |
+| $loop->first      | True if first iteration |
+| $loop->last       | True if last iteration |
+| $loop->length     | The number of items in the sequence |
+| $loop->parent     | The parent context |
 
 ## Usage
 
@@ -53,9 +64,9 @@ Furthermore, the `$loop` variable is introduced inside loops, (almost) exactly l
         {{ $loop->parent->index; }}
     @endloop  
 
-    @break
+    @break(false)
 
-    @continue
+    @continue($loop->index === $loop->revindex)
 @endloop
 ```
 
