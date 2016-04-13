@@ -4,7 +4,6 @@ namespace Advmaker\BladeLoop;
 
 class LoopFactory
 {
-
     /**
      * The stack of Loop instances
      *
@@ -19,7 +18,7 @@ class LoopFactory
      */
     public function newLoop($items)
     {
-        $this->addLoopStack(new Loop($this, $items));
+        $this->addLoopStack(new Loop($items));
     }
 
     /**

@@ -25,8 +25,6 @@ class Loop
      */
     protected $parentLoop;
 
-    protected $loopFactory;
-
     /**
      * Sets the parent loop
      *
@@ -39,31 +37,12 @@ class Loop
     }
 
     /**
-     * Returns the full loop stack of the LoopFactory
-     *
-     * @return array
-     */
-    public function getLoopStack()
-    {
-        return $this->loopFactory->getStack();
-    }
-
-    /**
-     * Resets the loop stack of the LoopFactory
-     */
-    public function resetLoopStack()
-    {
-        $this->loopFactory->reset();
-    }
-
-    /**
      * Instantiates the class
      *
      * @param array $items The array that's being iterated
      */
-    public function __construct(LoopFactory $loopFactory, $items)
+    public function __construct($items)
     {
-        $this->loopFactory = $loopFactory;
         $this->setItems($items);
     }
 
@@ -111,23 +90,11 @@ class Loop
      */
     public function before()
     {
-        if ($this->data['index'] % 2 == 0) {
-            $this->data['odd'] = false;
-            $this->data['even'] = true;
-        } else {
-            $this->data['odd'] = true;
-            $this->data['even'] = false;
-        }
-        if ($this->data['index'] == 0) {
-            $this->data['first'] = true;
-        } else {
-            $this->data['first'] = false;
-        }
-        if ($this->data['revindex'] == 0) {
-            $this->data['last'] = true;
-        } else {
-            $this->data['last'] = false;
-        }
+        $this->data['even'] = $this->data['index'] % 2 === 0;
+        $this->data['odd'] = ! $this->data['even'];
+
+        $this->data['first'] = $this->data['index'] === 0;
+        $this->data['last'] = $this->data['revindex'] === 0;
     }
 
     /**
