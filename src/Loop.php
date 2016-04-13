@@ -19,11 +19,30 @@ class Loop
     protected $data;
 
     /**
-     * The parent loop, if any
+     * Instantiates the class
      *
-     * @var Loop
+     * @param array $items The array that's being iterated
      */
-    protected $parentLoop;
+    public function __construct($items)
+    {
+        $this->items = $items;
+        $this->init($items);
+    }
+
+    /**
+     * Sets the array to monitor
+     *
+     * @param array $items The array that's being iterated
+     */
+    protected function init($items)
+    {
+        $total = count($items);
+        $this->data = [
+            'index'     => -1,
+            'revindex'  => $total,
+            'length'    => $total
+        ];
+    }
 
     /**
      * Sets the parent loop
@@ -32,42 +51,14 @@ class Loop
      */
     public function setParentLoop(Loop $parentLoop)
     {
-        $this->parentLoop = $parentLoop;
         $this->data['parent'] = $parentLoop;
     }
 
     /**
-     * Instantiates the class
+     * Return array that must be iterated.
      *
-     * @param array $items The array that's being iterated
+     * @return array
      */
-    public function __construct($items)
-    {
-        $this->setItems($items);
-    }
-
-    /**
-     * Sets the array to monitor
-     *
-     * @param array $items The array that's being iterated
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
-        $total = count($items);
-        $this->data = [
-            'index1'    => 1,
-            'index'     => 0,
-            'revindex1' => $total,
-            'revindex'  => $total - 1,
-            'first'     => true,
-            'last'      => false,
-            'odd'       => false,
-            'even'      => true,
-            'length'    => $total
-        ];
-    }
-
     public function getItems()
     {
         return $this->items;
@@ -88,23 +79,17 @@ class Loop
     /**
      * To be called first in a loop before anything else
      */
-    public function before()
+    public function loop()
     {
+        $this->data['index']++;
+        $this->data['index1'] = $this->data['index'] + 1;
+        $this->data['revindex']--;
+        $this->data['revindex1'] = $this->data['revindex'] + 1;
+
         $this->data['even'] = $this->data['index'] % 2 === 0;
         $this->data['odd'] = ! $this->data['even'];
 
         $this->data['first'] = $this->data['index'] === 0;
         $this->data['last'] = $this->data['revindex'] === 0;
-    }
-
-    /**
-     * To be called last in a loop after everything else
-     */
-    public function after()
-    {
-        $this->data['index']++;
-        $this->data['index1']++;
-        $this->data['revindex']--;
-        $this->data['revindex1']--;
     }
 }

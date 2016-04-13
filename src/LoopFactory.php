@@ -15,76 +15,20 @@ class LoopFactory
      * Creates a new loop with the given array and adds it to the stack
      *
      * @param array $items The array that will be iterated
+     * @return Loop
      */
     public function newLoop($items)
     {
-        $this->addLoopStack(new Loop($items));
-    }
+        $loop = new Loop($items);
 
-    /**
-     * Adds a Loop to the stack
-     *
-     * @param Loop $stackItem
-     */
-    protected function addLoopStack(Loop $stackItem)
-    {
         // Check stack for parent loop to register it with this loop
         if (count($this->stack) > 0) {
-            $stackItem->setParentLoop(last($this->stack));
+            $loop->setParentLoop(last($this->stack));
         }
 
-        array_push($this->stack, $stackItem);
-    }
+        array_push($this->stack, $loop);
 
-    /**
-     * Returns the stack
-     *
-     * @return array
-     */
-    public function getStack()
-    {
-        return $this->stack;
-    }
-
-    /**
-     * getLastStack method
-     *
-     * @return Loop
-     */
-    public function getLastStack()
-    {
-        return end($this->stack);
-    }
-
-    /**
-     * Resets the stack
-     */
-    public function reset()
-    {
-        $this->stack = [];
-    }
-
-    /**
-     * To be called first inside the foreach loop. Returns the current loop
-     *
-     * @return Loop $current The current loop data
-     */
-    public function loop()
-    {
-        $current = end($this->stack);
-        $current->before();
-
-        return $current;
-    }
-
-    /**
-     * To be called before the end of the loop
-     */
-    public function looped()
-    {
-        if (!empty($this->stack)) {
-            end($this->stack)->after();
-        }
+        return $loop;
     }
 
     /**
@@ -95,6 +39,7 @@ class LoopFactory
     public function endLoop(&$loop)
     {
         array_pop($this->stack);
+
         if (count($this->stack) > 0) {
             // This loop was inside another loop. We persist the loop variable and assign back the parent loop
             $loop = end($this->stack);
@@ -102,5 +47,18 @@ class LoopFactory
             // This loop was not inside another loop. We remove the var
             $loop = null;
         }
+    }
+
+    /**
+     * To be called first inside the foreach loop. Returns the current loop
+     *
+     * @return Loop $current The current loop data
+     */
+    public function loop()
+    {
+        $current = end($this->stack);
+        $current->loop();
+
+        return $current;
     }
 }
