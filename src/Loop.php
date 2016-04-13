@@ -56,7 +56,7 @@ class Loop
 
     /**
      * Return array that must be iterated.
-     * 
+     *
      * @return array
      */
     public function getItems()
