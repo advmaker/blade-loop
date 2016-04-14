@@ -36,7 +36,7 @@ class Loop
      */
     protected function init($items)
     {
-        $total = count($items);
+        $total = is_array($items) || $items instanceof \Countable ? count($items) : null;
         $this->data = [
             'index'     => -1,
             'revindex'  => $total,
@@ -73,7 +73,7 @@ class Loop
      */
     public function __get($key)
     {
-        return $this->data[$key];
+        return isset($this->data[$key]) ? $this->data[$key] : null;
     }
 
     /**
@@ -83,13 +83,16 @@ class Loop
     {
         $this->data['index']++;
         $this->data['index1'] = $this->data['index'] + 1;
-        $this->data['revindex']--;
-        $this->data['revindex1'] = $this->data['revindex'] + 1;
 
         $this->data['even'] = $this->data['index'] % 2 === 0;
         $this->data['odd'] = ! $this->data['even'];
 
         $this->data['first'] = $this->data['index'] === 0;
-        $this->data['last'] = $this->data['revindex'] === 0;
+
+        if (null !== $this->data['length']) {
+            $this->data['revindex']--;
+            $this->data['revindex1'] = $this->data['revindex'] + 1;
+            $this->data['last'] = $this->data['revindex'] === 0;
+        }
     }
 }
