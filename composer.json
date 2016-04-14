@@ -11,6 +11,10 @@
     "license": "MIT",
     "authors": [
         {
+            "name": "Maksim (Ellrion) Platonov",
+            "email": "ellrion11@gmail.com"
+        },
+        {
             "name": "Egor Zubarev",
             "email": "e.zubarev@advmaker.net"
         }
