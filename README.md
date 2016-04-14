@@ -88,7 +88,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Security
 
-If you discover any security related issues, please email e.zubarev@advmaker.net instead of using the issue tracker.
+If you discover any security related issues, please email github@advmaker.net instead of using the issue tracker.
 
 ## Credits
 
