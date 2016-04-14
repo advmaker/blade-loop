@@ -36,7 +36,7 @@ class LoopTest extends TestCase
 
     /**
      * Clear compiled views.
-     * 
+     *
      * @param $files
      * @param $path
      */
