@@ -2,6 +2,8 @@
 
 namespace Advmaker\BladeLoop;
 
+use Advmaker\BladeLoop\Support\Foo;
+use Illuminate\Support\Collection;
 use Orchestra\Testbench\TestCase;
 
 class LoopTest extends TestCase
@@ -30,6 +32,19 @@ class LoopTest extends TestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('view.paths', [__DIR__ . '/views']);
+    }
+
+    /**
+     * Clear compiled views.
+     *
+     * @param $files
+     * @param $path
+     */
+    private function clearViewsCache($files, $path)
+    {
+        foreach ($files->files($path) as $file) {
+            $files->delete($file);
+        }
     }
 
     /**
@@ -89,10 +104,67 @@ EOT;
         $this->assertEquals($result, view('loop_in_loop', compact('arr', 'arr_inner'))->render());
     }
 
-    private function clearViewsCache($files, $path)
+    public function testFirstAndLast()
     {
-        foreach ($files->files($path) as $file) {
-            $files->delete($file);
+        $this->assertEquals('1;5;', view('first_and_last', ['arr' => range(1, 5)])->render());
+    }
+
+    public function testLoopWithCollection()
+    {
+        $collection = new Collection(range(0, 5));
+        $i = 0;
+
+        $loop = $this->app['blade.loop']->newLoop($collection);
+        foreach ($loop->getItems() as $item) {
+            $loop = $this->app['blade.loop']->loop();
+            $this->assertEquals($i, $loop->index);
+            $this->assertEquals(6-$i, $loop->revindex1);
+            $this->assertEquals(6, $loop->length);
+            $i++;
         }
+        $this->app['blade.loop']->endLoop($loop);
+    }
+
+    public function testLoopWithObject()
+    {
+        $obj = new \stdClass();
+        $obj->foo = 1;
+        $obj->bar = 2;
+        $loop = $this->app['blade.loop']->newLoop($obj);
+        foreach ($loop->getItems() as $p) {
+            $loop = $this->app['blade.loop']->loop();
+            $this->assertEquals($p, $loop->index1);
+            $this->assertEquals(null, $loop->length);
+        }
+        $this->app['blade.loop']->endLoop($loop);
+    }
+
+    public function testLoopWithCountableIteratorAggregate()
+    {
+        $obj = new Foo(range(0, 5));
+
+        $loop = $this->app['blade.loop']->newLoop($obj);
+        foreach ($loop->getItems() as $p) {
+            $loop = $this->app['blade.loop']->loop();
+            $this->assertEquals($p, $loop->index);
+            $this->assertEquals(6, $loop->length);
+        }
+
+        $this->app['blade.loop']->endLoop($loop);
+    }
+
+    public function testLoopByDatePeriod()
+    {
+        $period = new \DatePeriod(new \DateTime('2015-01-28'), new \DateInterval('P1D'), new \DateTime('2015-02-02'));
+
+        $result = <<<'EOT'
+1: 2015-01-28
+2: 2015-01-29
+3: 2015-01-30
+4: 2015-01-31
+5: 2015-02-01
+
+EOT;
+        $this->assertEquals($result, view('loop_by_period', compact('period'))->render());
     }
 }

@@ -45,6 +45,8 @@ Furthermore, the `$loop` variable is introduced inside loops, (almost) exactly l
 | $loop->length     | The number of items in the sequence |
 | $loop->parent     | The parent context |
 
+> Note: `length`, `last`, `revindex1` and `revindex` variables are only available for PHP arrays, or objects that implement the Countable interface.
+
 ## Usage
 
 ``` php
