@@ -9,7 +9,11 @@ class LoopTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->artisan('view:clear');
+        if (version_compare($this->app->version(), '5.1', '<')) {
+            $this->clearViewsCache($this->app['files'], $this->app['config']['view.compiled']);
+        } else {
+            $this->artisan('view:clear');
+        }
     }
 
     protected function getPackageProviders($app)
@@ -83,5 +87,12 @@ EOT;
         }
 
         $this->assertEquals($result, view('loop_in_loop', compact('arr', 'arr_inner'))->render());
+    }
+
+    private function clearViewsCache($files, $path)
+    {
+        foreach ($files->files($path) as $file) {
+            $files->delete($file);
+        }
     }
 }
